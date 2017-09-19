@@ -50,7 +50,7 @@ app.use(express.static("public"));
 //mongoose localhost connection
 //mongoose.connect("mongodb://localhost/newscraper");
 //mongoose heroku 
-mongoose.connect("mongodb://localhost/newscraper");
+mongoose.connect("mongodb://heroku_p34rg5qt:2f7rjqmikanrv535tog9eqcjim@ds141524.mlab.com:41524/heroku_p34rg5qt");
 var db = mongoose.connection;
 
 // Show any mongoose errors
