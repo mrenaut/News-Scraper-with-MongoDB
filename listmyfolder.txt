@@ -1,0 +1,19 @@
+ Volume in drive C is Windows
+ Volume Serial Number is B0E6-496F
+
+ Directory of C:\Users\melis\Documents\School\Homework\news-scraper\news-scraper
+
+09/19/2017  04:26 PM    <DIR>          .
+09/19/2017  04:26 PM    <DIR>          ..
+08/29/2017  10:12 AM             1,630 .gitignore
+09/19/2017  01:03 AM    <DIR>          .idea
+09/19/2017  04:26 PM                 0 listmyfolder.txt
+09/19/2017  01:03 AM    <DIR>          models
+09/19/2017  04:19 PM    <DIR>          node_modules
+09/19/2017  04:19 PM               914 package.json
+09/19/2017  01:04 AM    <DIR>          public
+09/04/2017  06:54 PM               160 README.md
+09/19/2017  03:45 PM             6,803 server.js
+09/19/2017  01:04 AM    <DIR>          views
+               5 File(s)          9,507 bytes
+               7 Dir(s)  17,552,699,392 bytes free

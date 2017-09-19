@@ -1,0 +1,33 @@
+{
+  "name": "news-scraper",
+  "version": "1.0.0",
+  "description": "Application using REST APIs, Node. JS, and MongoDB to collect articles from the New York Times website and provide a comments section for users.",
+  "main": "server.js",
+  "dependencies": {
+    "bluebird": "^3.5.0",
+    "body-parser": "^1.18.1",
+    "cheerio": "^1.0.0-rc.2",
+    "express": "^4.15.4",
+    "express-handlebars": "^3.0.0",
+    "logger": "^0.0.1",
+    "mongojs": "^2.4.1",
+    "mongoose": "^4.11.12",
+    "morgan": "^1.8.2",
+    "request": "^2.82.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "mocha",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mrenaut/news-scraper.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mrenaut/news-scraper/issues"
+  },
+  "homepage": "https://github.com/mrenaut/news-scraper#readme"
+}
