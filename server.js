@@ -69,6 +69,7 @@ db.dropDatabase();
 //// ======
 //
 
+
 	
 // Hook mongojs configuration to the database
 Article.on("error", function (error) {
@@ -100,6 +101,8 @@ app.get("/articles", function (req, res) {
 		}
 	});
 });
+
+
 
 // Route to scrape data from the html and input into MongoDB
 app.get("/scrape", function (req, res) {
