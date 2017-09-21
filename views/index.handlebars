@@ -15,7 +15,7 @@
 
 		<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-2">
 			<form class="navbar-form navbar-left" role="search">
-				<button type="button" class="btn btn-info" id="scrapeButton" data-toggle="modal" data-target="#confirmScrape">Scrape New Articles</button>
+				<button type="button" class="btn btn-info" id="scrape" data-toggle="modal" data-target="#confirmScrape">Scrape New Articles</button>
 <!--				<button type="button" class="btn btn-info" id="clearUnsaved" >Clear Unsaved Articles</button>-->
 			</form>
 		</div>
@@ -45,7 +45,7 @@
 		</div>		
 		<div class="panel-footer">
 			<a class="btn btn-default" href="{{link}}" id="linkButton">Go to Article</a>			
-			<button class="btn btn-default commentButton" data-toggle="modal" data-target="#commentModal" data_id="{{_id}}">Comments</button>
+			<button class="btn btn-default" id="commentButton" data-toggle="modal" data-target="#commentModal" data_id="{{_id}}">Comments</button>
 <!--			<button id="saveArticleButton" class="btn btn-default" data_id="{{_id}}">Save Article</button>			-->
 		</div>
 	</div>
@@ -83,10 +83,10 @@
 			</div>
 			<div class="modal-body" >
 				
-				<div id="commentBox">
+				<div id="comments">
 				
 				</div>
-					
+		
 				<div class="form-group">
 					<label class="control-label" for="inputLarge">Add Comment</label>
 					<input class="form-control input-lg" type="text" id="userComment">

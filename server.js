@@ -49,7 +49,7 @@ app.use(express.static("public"));
 ///////////////////////////////////////////////////////////////////needs updated part for heroku
 //mongoose localhost connection
 //mongoose.connect("mongodb://localhost/newscraper");
-//mongoose heroku 
+////mongoose heroku 
 mongoose.connect("mongodb://heroku_p34rg5qt:2f7rjqmikanrv535tog9eqcjim@ds141524.mlab.com:41524/heroku_p34rg5qt");
 var db = mongoose.connection;
 
@@ -140,13 +140,6 @@ app.get("/scrape", function (req, res) {
 });
 
 
-
-
-
-
-
-//not yet working!!!!/////////////////////////////////////////////////////////////////////////////////
-
 //getting note for specific article
 app.get("/articles/:id", function (req, res) {
 	Article.findOne({
@@ -166,59 +159,41 @@ app.get("/articles/:id", function (req, res) {
 	});
 });
 
-// Create a new note 
-// Create a new note or replace an existing note
-//app.post("/articles/:id", function(req, res) {
-//	// Create a new note and pass the req.body to the entry
-//	var newComment = new Comment(req.body);
 //
-//	// And save the new note the db
-//	newComment.save(function(error, doc) {
-//		// Log any errors
-//		if (error) {
-//			console.log(error);
-//		}
-//		// Otherwise
-//		else {
-//			// Use the article id to find and update it's note
-//			Article.findOneAndUpdate({ "_id": req.params.id }, { "comment": doc._id })
-//			// Execute the above query
-//				.exec(function(err, doc) {
-//				// Log any errors
-//				if (err) {
-//					console.log(err);
-//				}
-//				else {
-//					// Or send the document to the browser
-//					res.send(doc);
-//				}
-//			});
-//		}
-//	});
-//});
 
-
-// New note creation via POST route
-app.post("/articles/:id", function(req, res) {
-	// Use our Note model to make a new note from the req.body
+// Create a new note 
+app.post("/articles/:id", function (req, res) {
+	// Create a new note and pass the req.body to the entry
 	var newComment = new Comment(req.body);
-	// Save the new note to mongoose
-	newComment.save(function(error, doc) {
-		// Send any errors to the browser
+
+	// And save the new note the db
+	newComment.save(function (error, doc) {
+		// Log any errors
 		if (error) {
-			res.send(error);
+			console.log(error);
 		}
 		// Otherwise
 		else {
-			// Find our user and push the new note id into the User's notes array
-			User.findOneAndUpdate({}, { $push: { "comment": doc._id } }, { new: true }, function(err, newdoc) {
-				// Send any errors to the browser
-				if (err) {
-					res.send(err);
+			// Use the article id to find and update it's note
+			//need "{new: true}" in our call,
+			// or else our query will return the object as it was before it was updated
+			Article.findOneAndUpdate({
+				_id: req.params.id
+			}, {
+				$push: {
+					comment: doc._id
 				}
-				// Or send the newdoc to the browser
-				else {
-					res.send(newdoc);
+			}, {
+				new: true
+			})
+			// Execute the above query
+				.exec(function (err, doc) {
+				// Log any errors
+				if (err) {
+					console.log(err);
+				} else {
+					// Or send the document to the browser
+					res.send(doc);
 				}
 			});
 		}
