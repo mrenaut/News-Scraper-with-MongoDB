@@ -5,7 +5,7 @@ var exphbs = require("express-handlebars");
 var logger = require("morgan");
 var mongojs = require("mongojs");
 var mongoose = require("mongoose");
-var Promise= require("bluebird");
+var Promise = require("bluebird");
 
 
 // News website scraping tools
@@ -36,67 +36,63 @@ app.use(bodyParser.urlencoded({
 app.use(express.static("public"));
 
 //Parses information from page
-app.use(bodyParser.urlencoded({extended: false}));
+app.use(bodyParser.urlencoded({
+	extended: false
+}));
 
 // Set Handlebars as the default templating engine.
-app.engine("handlebars", exphbs({defaultLayout: "main"}));
+app.engine("handlebars", exphbs({
+	defaultLayout: "main"
+}));
 app.set("view engine", "handlebars");
 
 // Make public a static dir
 app.use(express.static("public"));
 
 // Database configuration with mongoose
-///////////////////////////////////////////////////////////////////needs updated part for heroku
-//mongoose localhost connection
-//mongoose.connect("mongodb://localhost/newscraper");
-////mongoose heroku 
-//mongoose.connect("mongodb://heroku_p34rg5qt:2f7rjqmikanrv535tog9eqcjim@ds141524.mlab.com:41524/heroku_p34rg5qt");
-//var db = mongoose.connection;
-
-if (process.env.PORT){
+if (process.env.PORT) {
 	mongoose.connect('mongodb://heroku_p34rg5qt:2f7rjqmikanrv535tog9eqcjim@ds141524.mlab.com:41524/heroku_p34rg5qt');
 } else {
 	mongoose.connect('mongodb://localhost/test');
 }
-
-
-
 var db = mongoose.connection;
 
 
 // Show any mongoose errors
-db.on("error", function(error) {
+db.on("error", function (error) {
 	console.log("Mongoose Error: ", error);
 });
 
 // Once logged in to the db through mongoose, log a success message
-db.once("open", function() {
+db.once("open", function () {
 	console.log("Mongoose connection successful.");
 });
 
-//
+//Drops database to clear out all previously scraped articles from public example
 db.dropDatabase();
-//// Routes
-//// ======
-//
 
 
-	
+
 // Hook mongojs configuration to the database
 Article.on("error", function (error) {
 	console.log("Database Error:", error);
 });
 
 
+
+//// Routes----------------------------------------------------------------------
+
+
 // Main route to render webpage
 app.get("/", function (req, res) {
 	Article.find({})
 		.then(function (articles) {
-		res.render("index", {
-			articles: articles
-		});
-	})
+			res.render("index", {
+				articles: articles
+			});
+		})
 });
+
 
 //Route to retrieve Articles from the database
 app.get("/articles", function (req, res) {
@@ -123,7 +119,7 @@ app.get("/scrape", function (req, res) {
 		// Load the html body from request into cheerio
 		var $ = cheerio.load(html);
 		// Finds each element with a theme-summary class
-		$(".theme-summary").each(function(i, element) {
+		$(".theme-summary").each(function (i, element) {
 			//all scraped articles will be save into this empty array.    
 			var results = {};
 			// In each .theme-summary, we grab the child with the class story-heading
@@ -147,7 +143,7 @@ app.get("/scrape", function (req, res) {
 				}
 				// or log the doc
 				else {
-					console.log(doc);    
+					console.log(doc);
 				}
 			});
 		});
@@ -158,23 +154,22 @@ app.get("/scrape", function (req, res) {
 //getting note for specific article
 app.get("/articles/:id", function (req, res) {
 	Article.findOne({
-		"_id": req.params.id
-	})
+			"_id": req.params.id
+		})
 		.populate("comment")
-	// Now, execute that query
+		// Now, execute that query
 		.exec(function (error, doc) {
-		// Send any errors to the browser
-		if (error) {
-			res.send(error);
-		}
-		// Or, send our results to the browser, which will now include the books stored in the library
-		else {
-			res.send(doc);
-		}
-	});
+			// Send any errors to the browser
+			if (error) {
+				res.send(error);
+			}
+			// Or, send our results to the browser, which will now include the books stored in the library
+			else {
+				res.send(doc);
+			}
+		});
 });
 
-//
 
 // Create a new note 
 app.post("/articles/:id", function (req, res) {
@@ -193,40 +188,41 @@ app.post("/articles/:id", function (req, res) {
 			//need "{new: true}" in our call,
 			// or else our query will return the object as it was before it was updated
 			Article.findOneAndUpdate({
-				_id: req.params.id
-			}, {
-				$push: {
-					comment: doc._id
-				}
-			}, {
-				new: true
-			})
-			// Execute the above query
+					_id: req.params.id
+				}, {
+					$push: {
+						comment: doc._id
+					}
+				}, {
+					new: true
+				})
+				// Execute the above query
 				.exec(function (err, doc) {
-				// Log any errors
-				if (err) {
-					console.log(err);
-				} else {
-					// Or send the document to the browser
-					res.send(doc);
-				}
-			});
+					// Log any errors
+					if (err) {
+						console.log(err);
+					} else {
+						// Or send the document to the browser
+						res.send(doc);
+					}
+				});
 		}
 	});
 });
 
+
 //delete note by id
 app.post("/delete/:id", function (req, res) {
 	Comment.findByIdAndRemove({
-		_id: req.params.id
-	},
-					   function (error) {
-		// Throw any errors to the console
-		if (error) {
-			console.log(error);
-		}
+			_id: req.params.id
+		},
+		function (error) {
+			// Throw any errors to the console
+			if (error) {
+				console.log(error);
+			}
 
-	});
+		});
 
 });
 
@@ -240,11 +236,7 @@ app.post("/delete/:id", function (req, res) {
 
 
 
-
-
-
 // Listen on port 3000
-app.listen(port, function() {
+app.listen(port, function () {
 	console.log("App running on port 3000!");
 });
-
